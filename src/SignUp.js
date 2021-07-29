@@ -48,14 +48,14 @@ export default class SignUp extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      Admin: this.state.Admin,
+      admin: this.state.Admin,
     };
     DataService.signUpUser(data)
       .then((response) => {
-        if (response.status === 200 && this.state.Admin === true)
-          this.props.history.push("/AdminDashboard");
-        if (response.status === 200 && this.state.Admin === false)
-          this.props.history.push("/UserDashboard");
+        if (response.status === 200 && this.state.admin === true)
+          this.props.history.push("/login");
+        if (response.status === 200 && this.state.admin === false)
+          this.props.history.push("/login");
       })
       .catch((error) => {
         console.log(error);
@@ -66,57 +66,64 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <div className="app">
-        <div className="container">
-          <div className="loginForm">
-            Sign Up
-            <div className="radioButton">
-              <label>
-                <input
-                  type="radio"
-                  value="Admin"
-                  name="rights"
-                  checked={this.state.radioButtonValue === "Admin"}
-                  onChange={this.onValueChangeAdmin}
-                />
-                Admin
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="User"
-                  name="rights"
-                  checked={this.state.radioButtonValue === "User"}
-                  onChange={this.onValueChangeUser}
-                />
-                User
-              </label>
+      <div>
+        <div>
+          <label className="WelcomeLabel">
+            Welcome to Stock Market Charting App
+          </label>
+        </div>
+        <div className="app">
+          <div className="container">
+            <div className="loginForm">
+              Sign Up
+              <div className="radioButton">
+                <label>
+                  <input
+                    type="radio"
+                    value="Admin"
+                    name="rights"
+                    checked={this.state.radioButtonValue === "Admin"}
+                    onChange={this.onValueChangeAdmin}
+                  />
+                  Admin
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="User"
+                    name="rights"
+                    checked={this.state.radioButtonValue === "User"}
+                    onChange={this.onValueChangeUser}
+                  />
+                  User
+                </label>
+              </div>
+              <InputField
+                type="text"
+                placeholder="Name"
+                value={this.state.name ? this.state.name : ""}
+                onChange={(val) => this.setInputValue("name", val)}
+              />
+              <InputField
+                type="email"
+                placeholder="Email"
+                value={this.state.email ? this.state.email : ""}
+                onChange={(val) => this.setInputValue("email", val)}
+              />
+              <InputField
+                type="Password"
+                placeholder="Password"
+                value={this.state.password ? this.state.password : ""}
+                onChange={(val) => this.setInputValue("password", val)}
+              />
+              <SubmitButton
+                text="Sign Up"
+                disabled={this.state.buttonDisabled}
+                onClick={() => this.registerUser()}
+              />
             </div>
-            <InputField
-              type="text"
-              placeholder="Name"
-              value={this.state.name ? this.state.name : ""}
-              onChange={(val) => this.setInputValue("name", val)}
-            />
-            <InputField
-              type="email"
-              placeholder="Email"
-              value={this.state.email ? this.state.email : ""}
-              onChange={(val) => this.setInputValue("email", val)}
-            />
-            <InputField
-              type="Password"
-              placeholder="Password"
-              value={this.state.password ? this.state.password : ""}
-              onChange={(val) => this.setInputValue("password", val)}
-            />
-            <SubmitButton
-              text="Sign Up"
-              disabled={this.state.buttonDisabled}
-              onClick={() => this.registerUser()}
-            />
+            {/* {this.loadLoginError()} */}
           </div>
-          {/* {this.loadLoginError()} */}
         </div>
       </div>
     );
